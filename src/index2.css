@@ -1,0 +1,37 @@
+.chatbox
+{
+    border:  2px solid grey;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: bisque;
+}
+
+.chatbox-me
+{
+    border:  2px solid grey;
+    border-radius: 5px;
+    margin: -180px 0;
+    padding: 12px;
+    background-color: rgb(73, 120, 65);
+}
+
+.container-me
+{   
+    margin-top: 250px;
+    margin-left: 1050px;
+    width: 120px;
+}
+
+.container
+{
+    margin-top: 0px;
+    margin-left: -150px;
+}
+ 
+.msgsend
+{
+    margin-top: 200px;
+    width: 400px;
+    margin-left: 120px;
+}
