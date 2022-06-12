@@ -21,6 +21,7 @@ import Booking from "../pages/Booking";
 import Booking2 from "../pages/Booking2";
 import VisitorProfile from "../pages/VisitorProfile.jsx";
 import VisitorGroundProfile from "../pages/VisitorGroundProfile";
+import AcademyUsers from "../pages/AcademyUsers";
 import { useSelector } from "react-redux";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -51,6 +52,9 @@ function Routes() {
         </Route>
         <Route path="/donationform">
           <Donationform />
+        </Route>
+        <Route path="/academyuser">
+          <AcademyUsers />
         </Route>
         <Route path="/visitorprofile">
           <VisitorProfile />
@@ -90,6 +94,7 @@ function Routes() {
         </Route>
 
         <Route path="/groundprofile">
+          {console.log("GroundID", groundId)}
           {groundId ? (
             <Groundprofile setGroundLogin={setGroundLogin} />
           ) : (

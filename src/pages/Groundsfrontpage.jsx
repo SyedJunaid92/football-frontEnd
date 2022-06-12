@@ -26,6 +26,7 @@ function Groundsfrontpage() {
   };
   const ProfileView = (email, id, groundName) => {
     if (OnlineUser == email && from == "ground") {
+      window.sessionStorage.setItem("visitiorName", groundName);
       history.push("/Groundprofile");
     } else {
       window.sessionStorage.setItem("visitorID", id);

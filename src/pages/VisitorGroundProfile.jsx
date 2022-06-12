@@ -120,7 +120,12 @@ function VisitorGroundprofile() {
         <button className="msg-btn">Message</button>
         <button className="follow-btn">Bookings</button>
 
-        <button className="follow-btn">Tournaments</button>
+        <button
+          className="follow-btn"
+          onClick={() => window.location.replace("/academyuser")}
+        >
+          Academy
+        </button>
         <button className="follow-btn">Location</button>
         <div>
           {/* Timeline */}

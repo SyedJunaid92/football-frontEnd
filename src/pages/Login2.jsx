@@ -83,7 +83,7 @@ const Login2 = ({ setGroundLogin }) => {
   const login2 = () => {
     CONTANT.API.post("/ground/login2", user2).then((res) => {
       if (res.data.message == "Login Successsfully") {
-        console.log(res.data.team);
+        console.log(res.data.ground);
         setGroundData(res);
         alert(res.data.message);
         setGroundLogin(res.data.ground);

@@ -379,7 +379,17 @@ function Profile() {
               </div>
             </div>
 
-            <button className="message">Message</button>
+            <button
+              className="message"
+              onClick={() => {
+                window.open(
+                  "https://football-messenger.herokuapp.com/",
+                  "_blank"
+                );
+              }}
+            >
+              Message
+            </button>
             <button className="matchup2">Match Up</button>
           </div>
           <Button onClick={Deletecover}> Delete Cover </Button>

@@ -2,19 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { storage } from ".//firebase";
 import * as CONSTANT from "../Constant/constant";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  listAll,
-  list,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import { v4 } from "uuid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   setGroundId,
   setAddress,
@@ -157,11 +149,10 @@ function Groundprofile() {
 
   return (
     <>
-      <body className="body">
+      <div className="body">
         <button className="logoutt" onClick={() => logout()}>
           Logout
         </button>
-        <section className="containerr1" />
 
         {/* Cover */}
         <input
@@ -186,13 +177,8 @@ function Groundprofile() {
           <img src={cover_Url} className="coverpicc" alt="" />
         </div>
 
-        {/* <div className="cover-photo">
-                        <button className="coverbtn">Upload Cover</button>
-                            <div className="groundprofilee" > <img src=" "></img> </div>
-                    </div> */}
-
         {/* Dp */}
-        <div className="">
+        <div>
           <input
             type="file"
             className="dpinputt"
@@ -226,10 +212,22 @@ function Groundprofile() {
           <br />
           Here to achieve your dreams
         </p>
-        <button className="msg-btn">Message</button>
+        <button
+          className="msg-btn"
+          onClick={() => {
+            window.open("https://football-messenger.herokuapp.com/", "_blank");
+          }}
+        >
+          Message
+        </button>
         <button className="follow-btn">Bookings</button>
 
-        <button className="follow-btn">Tournaments</button>
+        <button
+          className="follow-btn"
+          onClick={() => window.location.replace("/academyuser")}
+        >
+          Academy
+        </button>
         <button className="follow-btn">Location</button>
         <div>
           {/* Timeline */}
@@ -243,7 +241,7 @@ function Groundprofile() {
             />
             <br></br>
             <br></br>
-            <div></div>
+
             <Button onClick={uploadImage} variant="contained" color="primary">
               Upload Image
             </Button>
@@ -272,7 +270,7 @@ function Groundprofile() {
               })}
           </div>
         </div>
-      </body>
+      </div>
     </>
   );
 }
