@@ -25,8 +25,8 @@ const Login = ({ setTeamLogin }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    window.sessionStorage.removeItem("dpUrl");
-    window.sessionStorage.removeItem("coverUrl");
+    window.localStorage.removeItem("dpUrl");
+    window.localStorage.removeItem("coverUrl");
   }, []);
 
   const [user, setUser] = useState({
@@ -58,16 +58,16 @@ const Login = ({ setTeamLogin }) => {
     event.preventDefault();
   };
 
-  const { sessionStorage } = window;
+  const { localStorage } = window;
 
   const setTeamData = (res) => {
-    sessionStorage.setItem("teamId", res.data.team._id);
-    sessionStorage.setItem("teamname", res.data.team.name);
-    sessionStorage.setItem("captainname", res.data.team.captainName);
-    sessionStorage.setItem("email", res.data.team.email);
-    sessionStorage.setItem("phone", res.data.team.phone);
-    sessionStorage.setItem("address", res.data.team.address);
-    sessionStorage.setItem("from", "team");
+    localStorage.setItem("teamId", res.data.team._id);
+    localStorage.setItem("teamname", res.data.team.name);
+    localStorage.setItem("captainname", res.data.team.captainName);
+    localStorage.setItem("email", res.data.team.email);
+    localStorage.setItem("phone", res.data.team.phone);
+    localStorage.setItem("address", res.data.team.address);
+    localStorage.setItem("from", "team");
     setDpUrl(res.data.team._id);
     setCoverUrl(res.data.team._id);
 
@@ -84,7 +84,7 @@ const Login = ({ setTeamLogin }) => {
     getDownloadURL(ref(storage, `teamdp/${teamId}`))
       .then((url) => {
         console.log("DP URL: ", url);
-        sessionStorage.setItem("dpUrl", url);
+        localStorage.setItem("dpUrl", url);
       })
       .catch((err) => console.log(err));
   };
@@ -94,7 +94,7 @@ const Login = ({ setTeamLogin }) => {
     getDownloadURL(ref(storage, `teamcover/${teamId}`))
       .then((url) => {
         console.log("Cover URL: ", url);
-        sessionStorage.setItem("coverUrl", url);
+        localStorage.setItem("coverUrl", url);
       })
       .catch((err) => console.log(err));
   };

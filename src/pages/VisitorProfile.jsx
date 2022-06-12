@@ -23,13 +23,11 @@ import { useDispatch } from "react-redux";
 import { getStorage, deleteObject } from "firebase/storage";
 
 function Profile() {
-  const { sessionStorage } = window;
+  const { localStorage } = window;
   const userEmail = useSelector((state) => state?.utilitySlice?.userEmail);
   const teamId = useSelector((state) => state?.teamSlice?.teamId);
-  const [id, setID] = useState(sessionStorage.getItem("visitorID"));
-  const [team, setTeam] = useState(
-    window.sessionStorage.getItem("visitiorName")
-  );
+  const [id, setID] = useState(localStorage.getItem("visitorID"));
+  const [team, setTeam] = useState(window.localStorage.getItem("visitiorName"));
   const imageListRef = ref(storage, `teamtimeline/${id}`);
   const [imageList, setImageList] = useState([]);
   useEffect(() => {
@@ -50,23 +48,23 @@ function Profile() {
     });
   }, []);
   //Dp
-  const [dp_Url, setDpUrl] = useState(sessionStorage.getItem("visitordpUrl"));
+  const [dp_Url, setDpUrl] = useState(localStorage.getItem("visitordpUrl"));
 
   useEffect(() => {
     setTimeout(() => {
-      setDpUrl(sessionStorage.getItem("visitordpUrl"));
+      setDpUrl(localStorage.getItem("visitordpUrl"));
       getAllStatus();
     }, 1000);
   }, [dp_Url]);
 
   //Cover
   const [cover_Url, setCoverUrl] = useState(
-    sessionStorage.getItem("visitorcoverUrl")
+    localStorage.getItem("visitorcoverUrl")
   );
 
   useEffect(() => {
     setTimeout(() => {
-      setCoverUrl(sessionStorage.getItem("visitorcoverUrl"));
+      setCoverUrl(localStorage.getItem("visitorcoverUrl"));
       getAllStatus();
     }, 1000);
   }, [cover_Url]);
@@ -85,7 +83,7 @@ function Profile() {
     getDownloadURL(ref(storage, `teamdp/${id}`))
       .then((url) => {
         // setDpUrl(url);
-        sessionStorage.setItem("visitordpUrl", url);
+        localStorage.setItem("visitordpUrl", url);
       })
       .catch((err) => console.log(err));
   };
@@ -94,7 +92,7 @@ function Profile() {
     getDownloadURL(ref(storage, `teamcover/${id}`))
       .then((url) => {
         // setCoverUrl(url);
-        sessionStorage.setItem("visitorcoverUrl", url);
+        localStorage.setItem("visitorcoverUrl", url);
       })
       .catch((err) => console.log(err));
   };

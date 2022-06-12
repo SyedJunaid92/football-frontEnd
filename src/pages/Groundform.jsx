@@ -7,8 +7,8 @@ import { useHistory } from "react-router-dom";
 function Groundform() {
   const history = useHistory();
   useEffect(() => {
-    window.sessionStorage.removeItem("dpUrl");
-    window.sessionStorage.removeItem("coverUrl");
+    window.localStorage.removeItem("dpUrl");
+    window.localStorage.removeItem("coverUrl");
   }, []);
 
   const [ground, setGround] = useState({

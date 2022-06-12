@@ -33,7 +33,7 @@ const Booking2 = () => {
   useEffect(() => {
     set_ID(window.localStorage.getItem("groundID"));
     setName(window.localStorage.getItem("groundName"));
-    setTeamName(window.sessionStorage.getItem("teamname"));
+    setTeamName(window.localStorage.getItem("teamname"));
   });
   useEffect(() => {
     set_ID(window.localStorage.getItem("groundID"));

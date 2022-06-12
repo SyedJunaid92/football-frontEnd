@@ -19,8 +19,8 @@ const Login2 = ({ setGroundLogin }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
-    window.sessionStorage.removeItem("dpUrl");
-    window.sessionStorage.removeItem("coverUrl");
+    window.localStorage.removeItem("dpUrl");
+    window.localStorage.removeItem("coverUrl");
   }, []);
 
   const [user2, setUser2] = useState({
@@ -39,16 +39,16 @@ const Login2 = ({ setGroundLogin }) => {
     event.preventDefault();
   };
 
-  const { sessionStorage } = window;
+  const { localStorage } = window;
 
   const setGroundData = (res) => {
-    sessionStorage.setItem("groundId", res.data.ground._id);
-    sessionStorage.setItem("groundname", res.data.ground.name);
-    sessionStorage.setItem("ownername", res.data.ground.ownername);
-    sessionStorage.setItem("email", res.data.ground.email);
-    sessionStorage.setItem("phone", res.data.ground.phone);
-    sessionStorage.setItem("address", res.data.ground.address);
-    sessionStorage.setItem("from", "ground");
+    localStorage.setItem("groundId", res.data.ground._id);
+    localStorage.setItem("groundname", res.data.ground.name);
+    localStorage.setItem("ownername", res.data.ground.ownername);
+    localStorage.setItem("email", res.data.ground.email);
+    localStorage.setItem("phone", res.data.ground.phone);
+    localStorage.setItem("address", res.data.ground.address);
+    localStorage.setItem("from", "ground");
     setDpUrl(res.data.ground._id);
     setCoverUrl(res.data.ground._id);
 
@@ -65,7 +65,7 @@ const Login2 = ({ setGroundLogin }) => {
     getDownloadURL(ref(storage, `grounddp/${groundId}`))
       .then((url) => {
         console.log("DP URL: ", url);
-        sessionStorage.setItem("dpUrl", url);
+        localStorage.setItem("dpUrl", url);
       })
       .catch((err) => console.log(err));
   };
@@ -75,7 +75,7 @@ const Login2 = ({ setGroundLogin }) => {
     getDownloadURL(ref(storage, `groundcover/${groundId}`))
       .then((url) => {
         console.log("Cover URL: ", url);
-        sessionStorage.setItem("coverUrl", url);
+        localStorage.setItem("coverUrl", url);
       })
       .catch((err) => console.log(err));
   };

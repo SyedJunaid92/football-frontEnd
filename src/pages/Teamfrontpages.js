@@ -18,13 +18,13 @@ function Teamfrontpages() {
   const [from, setFrom] = useState(null);
 
   useEffect(() => {
-    window.sessionStorage.removeItem("visitorID");
-    window.sessionStorage.removeItem("visitordpUrl");
-    window.sessionStorage.removeItem("visitorcoverUrl");
-    window.sessionStorage.removeItem("visitiorName");
+    window.localStorage.removeItem("visitorID");
+    window.localStorage.removeItem("visitordpUrl");
+    window.localStorage.removeItem("visitorcoverUrl");
+    window.localStorage.removeItem("visitiorName");
 
-    setOnlineUser(window.sessionStorage.getItem("email"));
-    setFrom(window.sessionStorage.getItem("from"));
+    setOnlineUser(window.localStorage.getItem("email"));
+    setFrom(window.localStorage.getItem("from"));
     getAllTeams();
   });
 
@@ -38,8 +38,8 @@ function Teamfrontpages() {
     if (OnlineUser == email && from == "team") {
       history.push("/profile");
     } else {
-      window.sessionStorage.setItem("visitorID", id);
-      window.sessionStorage.setItem("visitiorName", teamName);
+      window.localStorage.setItem("visitorID", id);
+      window.localStorage.setItem("visitiorName", teamName);
       history.push("/visitorprofile");
     }
   };

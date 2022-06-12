@@ -11,12 +11,12 @@ function Groundsfrontpage() {
   const history = useHistory();
 
   useEffect(() => {
-    window.sessionStorage.removeItem("visitorID");
-    window.sessionStorage.removeItem("visitordpUrl");
-    window.sessionStorage.removeItem("visitorcoverUrl");
-    window.sessionStorage.removeItem("visitiorName");
-    setOnlineUser(window.sessionStorage.getItem("email"));
-    setFrom(window.sessionStorage.getItem("from"));
+    window.localStorage.removeItem("visitorID");
+    window.localStorage.removeItem("visitordpUrl");
+    window.localStorage.removeItem("visitorcoverUrl");
+    window.localStorage.removeItem("visitiorName");
+    setOnlineUser(window.localStorage.getItem("email"));
+    setFrom(window.localStorage.getItem("from"));
     getAllGrounds();
   });
   const getAllGrounds = () => {
@@ -26,11 +26,11 @@ function Groundsfrontpage() {
   };
   const ProfileView = (email, id, groundName) => {
     if (OnlineUser == email && from == "ground") {
-      window.sessionStorage.setItem("visitiorName", groundName);
+      window.localStorage.setItem("visitiorName", groundName);
       history.push("/Groundprofile");
     } else {
-      window.sessionStorage.setItem("visitorID", id);
-      window.sessionStorage.setItem("visitiorName", groundName);
+      window.localStorage.setItem("visitorID", id);
+      window.localStorage.setItem("visitiorName", groundName);
       history.push("/visitorgroundprofile");
     }
   };

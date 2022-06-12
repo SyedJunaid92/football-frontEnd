@@ -26,10 +26,10 @@ import {
 } from "../redux/slices/groundSlice";
 
 function VisitorGroundprofile() {
-  const { sessionStorage } = window;
-  const [id, setID] = useState(sessionStorage.getItem("visitorID"));
+  const { localStorage } = window;
+  const [id, setID] = useState(localStorage.getItem("visitorID"));
   const [groundName, setGroundName] = useState(
-    window.sessionStorage.getItem("visitiorName")
+    window.localStorage.getItem("visitiorName")
   );
 
   useEffect(() => {
@@ -37,22 +37,22 @@ function VisitorGroundprofile() {
     setCover();
   });
   //Dp
-  const [dp_Url, setDpUrl] = useState(sessionStorage.getItem("visitordpUrl"));
+  const [dp_Url, setDpUrl] = useState(localStorage.getItem("visitordpUrl"));
 
   useEffect(() => {
     setTimeout(() => {
-      setDpUrl(sessionStorage.getItem("visitordpUrl"));
+      setDpUrl(localStorage.getItem("visitordpUrl"));
     }, 1000);
   }, [dp_Url]);
 
   //Cover
   const [cover_Url, setCoverUrl] = useState(
-    sessionStorage.getItem("visitorcoverUrl")
+    localStorage.getItem("visitorcoverUrl")
   );
 
   useEffect(() => {
     setTimeout(() => {
-      setCoverUrl(sessionStorage.getItem("visitorcoverUrl"));
+      setCoverUrl(localStorage.getItem("visitorcoverUrl"));
     }, 1000);
   }, [cover_Url]);
 
@@ -76,7 +76,7 @@ function VisitorGroundprofile() {
     const storage = getStorage();
     getDownloadURL(ref(storage, `grounddp/${id}`))
       .then((url) => {
-        sessionStorage.setItem("visitordpUrl", url);
+        localStorage.setItem("visitordpUrl", url);
       })
       .catch((err) => console.log(err));
   };
@@ -86,7 +86,7 @@ function VisitorGroundprofile() {
     getDownloadURL(ref(storage, `groundcover/${id}`))
       .then((url) => {
         console.log("Cover URL: ", url);
-        sessionStorage.setItem("visitorcoverUrl", url);
+        localStorage.setItem("visitorcoverUrl", url);
       })
       .catch((err) => console.log(err));
   };

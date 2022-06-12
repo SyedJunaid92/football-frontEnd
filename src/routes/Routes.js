@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Menu from "../pages/Menu";
 import Home from "../pages/Home";
@@ -94,7 +94,6 @@ function Routes() {
         </Route>
 
         <Route path="/groundprofile">
-          {console.log("GroundID", groundId)}
           {groundId ? (
             <Groundprofile setGroundLogin={setGroundLogin} />
           ) : (

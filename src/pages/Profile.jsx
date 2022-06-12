@@ -37,19 +37,19 @@ import { getStorage, deleteObject } from "firebase/storage";
 function Profile() {
   const storagee = getStorage();
   const dispatch = useDispatch();
-  const { sessionStorage } = window;
+  const { localStorage } = window;
   const userEmail = useSelector((state) => state?.utilitySlice?.userEmail);
   const teamId = useSelector((state) => state?.teamSlice?.teamId);
   const team = useSelector((state) => state?.teamSlice?.teamname);
 
   //Dp
-  const [dp_Url, setDpUrl] = useState(sessionStorage.getItem("dpUrl"));
+  const [dp_Url, setDpUrl] = useState(localStorage.getItem("dpUrl"));
   const [dpUpload, setDpUpload] = useState(null);
   const [url3, setUrl3] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      setDpUrl(sessionStorage.getItem("dpUrl"));
+      setDpUrl(localStorage.getItem("dpUrl"));
       getAllStatus();
     }, 1000);
   }, [dp_Url]);
@@ -92,7 +92,7 @@ function Profile() {
         getDownloadURL(dpRef)
           .then((url3) => {
             setDpUrl(url3);
-            window.sessionStorage.setItem("dpUrl", url3);
+            window.localStorage.setItem("dpUrl", url3);
             CONTANT.API.post("/team/dp", { _id: teamId, imgURL: url3 });
           })
           .catch((error) => {
@@ -106,7 +106,7 @@ function Profile() {
   };
 
   //Cover
-  const [cover_Url, setCoverUrl] = useState(sessionStorage.getItem("coverUrl"));
+  const [cover_Url, setCoverUrl] = useState(localStorage.getItem("coverUrl"));
   const [coverUpload, setCoverUpload] = useState(null);
   const [url2, setUrl2] = useState(null);
   useEffect(() => {
@@ -115,7 +115,7 @@ function Profile() {
   useEffect(() => {
     console.log("This is Cover url: ", cover_Url);
     setTimeout(() => {
-      setCoverUrl(sessionStorage.getItem("coverUrl"));
+      setCoverUrl(localStorage.getItem("coverUrl"));
       console.log("This is Cover url:", cover_Url);
       getAllStatus();
     }, 1000);
@@ -129,7 +129,7 @@ function Profile() {
         getDownloadURL(coverRef)
           .then((url2) => {
             setCoverUrl(url2);
-            window.sessionStorage.setItem("coverUrl", url2);
+            window.localStorage.setItem("coverUrl", url2);
             console.log(url2);
           })
           .catch((error) => {
@@ -152,12 +152,13 @@ function Profile() {
     // Delete the file
     deleteObject(desertRef)
       .then(() => {
+        window.localStorage.removeItem("coverUrl");
+        setCoverUrl();
         // File deleted successfully
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
       });
-    window.location.reload(false);
   };
 
   //Delete Dp
@@ -171,11 +172,13 @@ function Profile() {
     deleteObject(desertRef)
       .then(() => {
         // File deleted successfully
+        window.localStorage.removeItem("dpUrl");
+        setDpUrl();
       })
       .catch((error) => {
         // Uh-oh, an error occurred!
       });
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   //Status
@@ -231,7 +234,7 @@ function Profile() {
 
   const [imageUpload, setImageUpload] = useState(null);
   const [imageList, setImageList] = useState(
-    window.sessionStorage.getItem("imageList") || []
+    window.localStorage.getItem("imageList") || []
   );
   const imageListRef = ref(storage, `teamtimeline/${teamId}`);
 
@@ -246,22 +249,25 @@ function Profile() {
         const list = [...imageList];
         list.unshift(url);
         setImageList(list);
-        window.sessionStorage.setItem("imageList", list);
+        window.localStorage.setItem("imageList", list);
         console.log(imageList);
       });
     });
   };
 
-  const deletePicture = (e, index) => {
+  const deletePicture = async (e, index) => {
     e.preventDefault();
+
     const list = [...imageList];
+    const url = list[index];
     list.splice(index, 1);
     setImageList(list);
-    const url = list[index];
+
     console.log(url);
-    // let imageRef = storagee.refFromURL(url);
-    // imageRef.delete();
-    window.sessionStorage.setItem("imageList", list);
+    let imageRef = await storage.refFromURL(url);
+    console.log("Ref: ", imageRef);
+    imageRef.delete();
+    window.localStorage.setItem("imageList", list);
   };
   const deleteStatus = (e, index) => {
     e.preventDefault();
@@ -272,7 +278,7 @@ function Profile() {
     console.log(url);
     // let imageRef = storagee.refFromURL(url);
     // imageRef.delete();
-    window.sessionStorage.setItem("statusArray", list);
+    window.localStorage.setItem("statusArray", list);
   };
 
   useEffect(() => {
@@ -288,9 +294,8 @@ function Profile() {
   }, []);
 
   const logout = () => {
-    const { sessionStorage } = window;
-    sessionStorage.clear();
-
+    const { localStorage } = window;
+    localStorage.clear();
     dispatch(setTeamId(""));
     dispatch(setTeamName(""));
     dispatch(setCaptainName(""));
@@ -303,7 +308,7 @@ function Profile() {
     const list = [...statusArray];
     list.unshift(status);
     setStatusArray(list);
-    window.sessionStorage.setItem("statusArray", list);
+    window.localStorage.setItem("statusArray", list);
     const response = await CONTANT.API.post(`/team/setStatus/${teamId}`, {
       status,
     });
@@ -349,7 +354,7 @@ function Profile() {
             </Button>
           </label>
           <div className="coverborder">
-            <img src={cover_Url} className="coverimg" alt="" />
+            {cover_Url && <img src={cover_Url} className="coverimg" alt="" />}
           </div>
 
           {/* Dp */}
@@ -375,7 +380,7 @@ function Profile() {
               </label>
 
               <div id="dpborder">
-                <img src={dp_Url} className="profilephoto" alt="" />
+                {dp_Url && <img src={dp_Url} className="profilephoto" alt="" />}
               </div>
             </div>
 

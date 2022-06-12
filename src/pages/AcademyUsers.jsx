@@ -7,7 +7,7 @@ const AcademyUsers = () => {
     getUsers();
   }, []);
   const getUsers = async () => {
-    let name = window.sessionStorage.getItem("visitiorName");
+    let name = window.localStorage.getItem("visitiorName");
     await CONSTANT.API.get(`/academy/users/${name}`).then((res) => {
       setUsers(res.data);
       console.log(res.data);

@@ -18,17 +18,17 @@ import {
 
 function Groundprofile() {
   const dispatch = useDispatch();
-  const { sessionStorage } = window;
+  const { localStorage } = window;
   const groundId = useSelector((state) => state?.groundSlice?.groundId);
   const groundName = useSelector((state) => state?.groundSlice?.groundname);
 
   //Dp
-  const [dp_Url, setDpUrl] = useState(sessionStorage.getItem("dpUrl"));
+  const [dp_Url, setDpUrl] = useState(localStorage.getItem("dpUrl"));
   const [dpUpload, setDpUpload] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      setDpUrl(sessionStorage.getItem("dpUrl"));
+      setDpUrl(localStorage.getItem("dpUrl"));
     }, 1000);
   }, [dp_Url]);
 
@@ -43,7 +43,7 @@ function Groundprofile() {
           .then((url3) => {
             setDpUrl(url3);
             CONSTANT.API.post("/ground/dp", { _id: groundId, imgURL: url3 });
-            window.sessionStorage.setItem("dpUrl", url3);
+            window.localStorage.setItem("dpUrl", url3);
           })
           .catch((error) => {
             console.log(error.message, "error getting while uploading");
@@ -56,12 +56,12 @@ function Groundprofile() {
   };
 
   //Cover
-  const [cover_Url, setCoverUrl] = useState(sessionStorage.getItem("coverUrl"));
+  const [cover_Url, setCoverUrl] = useState(localStorage.getItem("coverUrl"));
   const [coverUpload, setCoverUpload] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      setCoverUrl(sessionStorage.getItem("coverUrl"));
+      setCoverUrl(localStorage.getItem("coverUrl"));
     }, 1000);
   }, [cover_Url]);
 
@@ -73,7 +73,7 @@ function Groundprofile() {
         getDownloadURL(coverRef)
           .then((url2) => {
             setCoverUrl(url2);
-            window.sessionStorage.setItem("coverUrl", url2);
+            window.localStorage.setItem("coverUrl", url2);
           })
           .catch((error) => {
             console.log(error.message, "error getting while uploading");
@@ -104,7 +104,7 @@ function Groundprofile() {
             const list = [...imageList];
             list.unshift(url);
             setImageList(list);
-            sessionStorage.setItem("imageList", list);
+            localStorage.setItem("imageList", list);
           })
           .catch((error) => console.log("Error: ", error));
       })
@@ -127,17 +127,18 @@ function Groundprofile() {
   const deletePicture = (e, index) => {
     e.preventDefault();
     const list = [...imageList];
+    const url = list[index];
     list.splice(index, 1);
     setImageList(list);
-    const url = list[index];
-    // let imageRef = storagee.refFromURL(url);
-    // imageRef.delete();
-    window.sessionStorage.setItem("imageList", list);
+
+    let imageRef = storage.refFromURL(url);
+    imageRef.delete();
+    window.localStorage.setItem("imageList", list);
   };
 
   const logout = () => {
-    const { sessionStorage } = window;
-    sessionStorage.clear();
+    const { localStorage } = window;
+    localStorage.clear();
 
     dispatch(setGroundId(""));
     dispatch(setGroundName(""));
@@ -174,7 +175,7 @@ function Groundprofile() {
           </Button>
         </label>
         <div className="cover-photo">
-          <img src={cover_Url} className="coverpicc" alt="" />
+          {cover_Url && <img src={cover_Url} className="coverpicc" alt="" />}
         </div>
 
         {/* Dp */}
@@ -199,7 +200,7 @@ function Groundprofile() {
           </label>
 
           <div className="dpborderr">
-            <img src={dp_Url} className="dpphoto" alt="" />
+            {dp_Url && <img src={dp_Url} className="dpphoto" alt="" />}
           </div>
         </div>
 
