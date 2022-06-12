@@ -113,10 +113,9 @@ function Profile() {
     getAllStatus();
   });
   useEffect(() => {
-    console.log("This is Cover url: ", cover_Url);
     setTimeout(() => {
       setCoverUrl(localStorage.getItem("coverUrl"));
-      console.log("This is Cover url:", cover_Url);
+
       getAllStatus();
     }, 1000);
   }, [cover_Url]);
@@ -130,7 +129,6 @@ function Profile() {
           .then((url2) => {
             setCoverUrl(url2);
             window.localStorage.setItem("coverUrl", url2);
-            console.log(url2);
           })
           .catch((error) => {
             console.log(error.message, "error getting while uploading");
@@ -233,9 +231,8 @@ function Profile() {
   //Timeline
 
   const [imageUpload, setImageUpload] = useState(null);
-  const [imageList, setImageList] = useState(
-    window.localStorage.getItem("imageList") || []
-  );
+  const [imageList, setImageList] = useState([]);
+  const [imagePath, setImagePath] = useState([]);
   const imageListRef = ref(storage, `teamtimeline/${teamId}`);
 
   const uploadImage = () => {
@@ -250,7 +247,6 @@ function Profile() {
         list.unshift(url);
         setImageList(list);
         window.localStorage.setItem("imageList", list);
-        console.log(imageList);
       });
     });
   };
@@ -259,14 +255,25 @@ function Profile() {
     e.preventDefault();
 
     const list = [...imageList];
-    const url = list[index];
+    const paths = [...imagePath];
+    const deletePath = paths[index];
+    paths.splice(index, 1);
+    setImagePath(paths);
     list.splice(index, 1);
     setImageList(list);
 
-    console.log(url);
-    let imageRef = await storage.refFromURL(url);
-    console.log("Ref: ", imageRef);
-    imageRef.delete();
+    const storage = getStorage();
+
+    // Create a reference to the file to delete
+    const desertRef = ref(storage, deletePath);
+    deleteObject(desertRef)
+      .then(() => {
+        // File deleted successfully
+        console.log("Deleted");
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+      });
     window.localStorage.setItem("imageList", list);
   };
   const deleteStatus = (e, index) => {
@@ -284,6 +291,10 @@ function Profile() {
   useEffect(() => {
     listAll(imageListRef).then((response) => {
       response.items.forEach((item) => {
+        let path = imagePath;
+        path.push(item.fullPath);
+        setImagePath([...path]);
+
         getDownloadURL(item).then((url) => {
           let AllURL = imageList;
           AllURL.push(url);

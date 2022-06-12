@@ -15,6 +15,7 @@ import {
   setPhone,
   setGroundName,
 } from "../redux/slices/groundSlice";
+import { getStorage, deleteObject } from "firebase/storage";
 
 function Groundprofile() {
   const dispatch = useDispatch();
@@ -88,6 +89,8 @@ function Groundprofile() {
   //Timeline
   const [imageUpload, setImageUpload] = useState(null);
   const [imageList, setImageList] = useState([]);
+  const [imagePath, setImagePath] = useState([]);
+
   const imageListRef = ref(storage, `groundtimeline/${groundId}`);
 
   const uploadImage = () => {
@@ -115,6 +118,9 @@ function Groundprofile() {
     setImageList([]);
     listAll(imageListRef).then((response) => {
       response.items.forEach((item) => {
+        let path = imagePath;
+        path.push(item.fullPath);
+        setImagePath([...path]);
         getDownloadURL(item).then((url) => {
           let AllURL = imageList;
           AllURL.push(url);
@@ -127,12 +133,26 @@ function Groundprofile() {
   const deletePicture = (e, index) => {
     e.preventDefault();
     const list = [...imageList];
-    const url = list[index];
+    const paths = [...imagePath];
+    const deletePath = paths[index];
+    paths.splice(index, 1);
+    setImagePath(paths);
+
     list.splice(index, 1);
     setImageList(list);
 
-    let imageRef = storage.refFromURL(url);
-    imageRef.delete();
+    const storage = getStorage();
+
+    // Create a reference to the file to delete
+    const desertRef = ref(storage, deletePath);
+    deleteObject(desertRef)
+      .then(() => {
+        // File deleted successfully
+        console.log("Deleted");
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+      });
     window.localStorage.setItem("imageList", list);
   };
 
